@@ -15,6 +15,9 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
 
     private val items = mutableListOf<Shop>()
 
+    var onClickAddFavorite: ((Shop) -> Unit)? = null
+    var onCLickDeleteFavorite: ((Shop) -> Unit)? = null
+
     fun refresh(list: List<Shop>) {
         items.apply {
             clear()
@@ -46,13 +49,24 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
 
     private fun updateApiItemViewHolder(holder: ApiItemViewHolder, position: Int) {
         val data = items[position]
+        val isFavorite = FavoriteShop.findBy(data.id) != null
         holder.apply {
             rootView.apply {
                 setBackgroundColor(ContextCompat.getColor(context, if (position%2==0) android.R.color.white else android.R.color.darker_gray))
             }
             nameTextView.text = data.name
             Picasso.get().load(data.logoImage).into(imageView)
-            favoriteImageView.setImageResource(R.drawable.ic_star_border)
+            favoriteImageView.apply {
+                setImageResource(R.drawable.ic_star_border)
+                setOnClickListener{
+                    if (isFavorite) {
+                        onCLickDeleteFavorite?.invoke(data)
+                    }else {
+                        onClickAddFavorite?.invoke(data)
+                    }
+                    notifyItemChanged(position)
+                }
+            }
         }
     }
 }
