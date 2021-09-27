@@ -35,9 +35,13 @@ class FavoriteFragment: Fragment() {
             onClickDeleteFavorite = {
                 fragmentCallback?.onDeleteFavorite((it.id))
             }
+
+            onClickItem = {
+                fragmentCallback?.onClickItem(it)
+            }
         }
 
-        recycleView.apply {
+        recyclerView.apply {
             adapter = favoriteAdapter
             layoutManager = LinearLayoutManager(requireContext())
 

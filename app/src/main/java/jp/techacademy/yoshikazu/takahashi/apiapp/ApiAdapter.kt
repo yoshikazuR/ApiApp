@@ -16,11 +16,26 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
     private val items = mutableListOf<Shop>()
 
     var onClickAddFavorite: ((Shop) -> Unit)? = null
-    var onCLickDeleteFavorite: ((Shop) -> Unit)? = null
+    var onClickDeleteFavorite: ((Shop) -> Unit)? = null
+    var onClickItem: ((Shop) -> Unit)? = null
 
     fun refresh(list: List<Shop>) {
         items.apply {
             clear()
+            addAll(list)
+        }
+        notifyDataSetChanged()
+    }
+
+    fun add(list: List<Shop>) {
+        update(list, true)
+    }
+
+    fun update(list: List<Shop>, isAdd: Boolean) {
+        items.apply {
+            if(!isAdd) {
+                clear()
+            }
             addAll(list)
         }
         notifyDataSetChanged()
@@ -33,6 +48,7 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
     class ApiItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val rootView: ConstraintLayout = view.findViewById(R.id.rootView)
         val nameTextView: TextView = view.findViewById(R.id.nameTextView)
+        val addressTextView: TextView = view.findViewById(R.id.addressTextView)
         val imageView: ImageView = view.findViewById(R.id.imageView)
         val favoriteImageView: ImageView = view.findViewById(R.id.favoriteImageView)
     }
@@ -53,14 +69,20 @@ class ApiAdapter(private val context: Context): RecyclerView.Adapter<RecyclerVie
         holder.apply {
             rootView.apply {
                 setBackgroundColor(ContextCompat.getColor(context, if (position%2==0) android.R.color.white else android.R.color.darker_gray))
+                setOnClickListener {
+//                    onClickItem?.invoke(if (data.couponUrls.sp.isNotEmpty()) data.couponUrls.sp else data.couponUrls.pc)
+                    onClickItem?.invoke(data)
+                }
+
             }
             nameTextView.text = data.name
+            addressTextView.text = data.address
             Picasso.get().load(data.logoImage).into(imageView)
             favoriteImageView.apply {
-                setImageResource(R.drawable.ic_star_border)
+                setImageResource(if (isFavorite) R.drawable.ic_star else R.drawable.ic_star_border)
                 setOnClickListener{
                     if (isFavorite) {
-                        onCLickDeleteFavorite?.invoke(data)
+                        onClickDeleteFavorite?.invoke(data)
                     }else {
                         onClickAddFavorite?.invoke(data)
                     }

@@ -27,25 +27,30 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         }.attach()
     }
 
+    override fun onClickItem(shop: Shop) {
+        WebViewActivity.start(this, shop)
+    }
+
     override fun onAddFavorite(shop: Shop) {
         FavoriteShop.insert(FavoriteShop().apply {
             id = shop.id
             name = shop.name
             imageUrl = shop.logoImage
+            address = shop.address
             url = if (shop.couponUrls.sp.isNotEmpty()) shop.couponUrls.sp else shop.couponUrls.pc
         })
         (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
     }
 
     override fun onDeleteFavorite(id: String) {
-        showConfirmDeleteFavorite(id)
+        showConfirmDeleteFavoriteDialog(id)
     }
 
-    private fun showConfirmDeleteFavorite(id: String) {
+    private fun showConfirmDeleteFavoriteDialog(id: String) {
         AlertDialog.Builder(this)
             .setTitle(R.string.delete_favorite_dialog_title)
             .setMessage(R.string.delete_favorite_dialog_message)
-            .setPositiveButton(android.R.string.cancel) {_, _ ->
+            .setPositiveButton(android.R.string.ok) {_, _ ->
                 deleteFavorite(id)
             }
             .setNegativeButton(android.R.string.cancel) {_, _ -> }
