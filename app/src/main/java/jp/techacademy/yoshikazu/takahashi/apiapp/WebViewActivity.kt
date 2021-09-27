@@ -16,8 +16,6 @@ import jp.techacademy.yoshikazu.takahashi.apiapp.MainActivity.Companion as MainA
 
 class WebViewActivity : AppCompatActivity() {
 
-    private val viewPagerAdapter by lazy { ViewPagerAdapter(this) }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web_view)
@@ -34,8 +32,6 @@ class WebViewActivity : AppCompatActivity() {
         addFavoriteBtn.setOnClickListener {
             if (isFavorite) {
                 FavoriteShop.delete(intent.getStringExtra(ID).toString())
-                var api = (viewPagerAdapter.fragments[jp.techacademy.yoshikazu.takahashi.apiapp.MainActivity.VIEW_PAGER_POSITION_API] as ApiFragment).updateView()
-                (viewPagerAdapter.fragments[jp.techacademy.yoshikazu.takahashi.apiapp.MainActivity.VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
                 addFavoriteBtn.text = "お気に入りから削除"
             } else {
                 FavoriteShop.insert(FavoriteShop().apply {
@@ -45,7 +41,6 @@ class WebViewActivity : AppCompatActivity() {
                     address = shop.address
                     url = urlC
                 })
-                (viewPagerAdapter.fragments[jp.techacademy.yoshikazu.takahashi.apiapp.MainActivity.VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
                 addFavoriteBtn.text = "お気に入りに追加"
             }
         }

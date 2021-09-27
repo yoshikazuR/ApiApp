@@ -27,6 +27,12 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
         }.attach()
     }
 
+    override fun onStart() {
+        super.onStart()
+        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_API] as ApiFragment).updateView()
+        (viewPagerAdapter.fragments[VIEW_PAGER_POSITION_FAVORITE] as FavoriteFragment).updateData()
+    }
+
     override fun onClickItem(shop: Shop) {
         WebViewActivity.start(this, shop)
     }

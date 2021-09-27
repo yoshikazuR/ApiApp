@@ -82,7 +82,9 @@ class ApiFragment: Fragment() {
     }
 
     fun updateView() {
-        recycleView.adapter?.notifyDataSetChanged()
+        if (recycleView != null) {
+            recycleView.adapter?.notifyDataSetChanged()
+        }
     }
 
     private fun updateData(isAdd: Boolean = false) {
