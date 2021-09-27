@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), FragmentCallback {
     }
 
     companion object {
-        private const val VIEW_PAGER_POSITION_API = 0
-        private const val VIEW_PAGER_POSITION_FAVORITE = 1
+        const val VIEW_PAGER_POSITION_API = 0
+        const val VIEW_PAGER_POSITION_FAVORITE = 1
     }
 }
