@@ -31,8 +31,8 @@ class WebViewActivity : AppCompatActivity() {
 
         addFavoriteBtn.setOnClickListener {
             if (isFavorite) {
-                FavoriteShop.delete(intent.getStringExtra(ID).toString())
-                addFavoriteBtn.text = "お気に入りから削除"
+                FavoriteShop.delete(shop.id)
+                addFavoriteBtn.text = "お気に入りに追加"
             } else {
                 FavoriteShop.insert(FavoriteShop().apply {
                     id = shop.id
@@ -41,7 +41,7 @@ class WebViewActivity : AppCompatActivity() {
                     address = shop.address
                     url = urlC
                 })
-                addFavoriteBtn.text = "お気に入りに追加"
+                addFavoriteBtn.text = "お気に入りから削除"
             }
         }
     }

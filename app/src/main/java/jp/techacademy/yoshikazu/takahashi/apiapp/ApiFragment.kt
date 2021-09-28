@@ -32,6 +32,11 @@ class ApiFragment: Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        updateView()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

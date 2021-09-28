@@ -21,6 +21,11 @@ class FavoriteFragment: Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        updateData()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
