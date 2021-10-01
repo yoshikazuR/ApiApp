@@ -22,7 +22,7 @@ class WebViewActivity : AppCompatActivity() {
         var shop = intent.getSerializableExtra("shop") as Shop
         val urlC = if (shop.couponUrls.sp.isNotEmpty()) shop.couponUrls.sp else shop.couponUrls.pc
         webView.loadUrl(urlC)
-        val isFavorite = FavoriteShop.findBy(shop.id) != null
+        var isFavorite = FavoriteShop.findBy(shop.id) != null
         if (isFavorite) {
             addFavoriteBtn.text = "お気に入りから削除"
         } else {
@@ -30,6 +30,7 @@ class WebViewActivity : AppCompatActivity() {
         }
 
         addFavoriteBtn.setOnClickListener {
+            isFavorite = FavoriteShop.findBy(shop.id) != null
             if (isFavorite) {
                 FavoriteShop.delete(shop.id)
                 addFavoriteBtn.text = "お気に入りに追加"
